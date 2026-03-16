@@ -1,12 +1,11 @@
-# 💼 BIP – Desafio Fullstack Integrado
+# BIP – Desafio Fullstack Integrado
 
-Solução ideal para o desafio técnico BIP, combinando o melhor de cada implementação avaliada.
-Arquitetura completa em camadas: **EJB** + **Spring Boot** + **Angular 17**, com foco em
-correção do bug transacional, qualidade de código e cobertura de testes.
+Desafio técnico BIP com arquitetura completa em camadas: DB, EJB, Backend e Frontend, com foco em
+correção do bug transacional, qualidade de código, cobertura de testes e entrega de aplicação funcional.
 
 ---
 
-## 📐 Arquitetura
+## Arquitetura
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -35,7 +34,7 @@ correção do bug transacional, qualidade de código e cobertura de testes.
 
 ---
 
-## 🐞 Bug EJB Corrigido
+## Bug EJB Corrigido
 
 O `BeneficioEjbService` original apresentava **4 problemas críticos**:
 
@@ -48,7 +47,7 @@ O `BeneficioEjbService` original apresentava **4 problemas críticos**:
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 ### Opção 1 — Docker Compose (recomendado)
 
@@ -107,7 +106,7 @@ npm start   # http://localhost:4200
 
 ---
 
-## 🏗️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 bip-ideal/
@@ -119,7 +118,7 @@ bip-ideal/
 ├── ejb-module/
 │   └── src/main/java/com/example/ejb/
 │       ├── Beneficio.java              # Entidade JPA + @Version
-│       ├── BeneficioEjbService.java    # ✅ Bug corrigido (4 fixes)
+│       ├── BeneficioEjbService.java    # Bug corrigido (4 fixes)
 │       └── JAXRSConfiguration.java
 ├── backend-module/
 │   └── src/
@@ -157,7 +156,7 @@ bip-ideal/
 
 ---
 
-## ✅ Checklist de Tarefas
+## Checklist de Tarefas
 
 - [x] Scripts `db/schema.sql` e `db/seed.sql`
 - [x] **Bug EJB corrigido** — validação, saldo, `PESSIMISTIC_WRITE`, `@TransactionAttribute(REQUIRED)`
@@ -175,23 +174,10 @@ bip-ideal/
 - [x] Pipeline CI com 3 jobs paralelos + cache + upload de artefatos
 - [x] Docker Compose com healthcheck no banco
 
----
-
-## 📊 Critérios de Avaliação
-
-| Critério | Peso | Implementação |
-|---|---|---|
-| Arquitetura em camadas | 20% | EJB → Backend (DTOs, Service, Repository) → Frontend |
-| Correção EJB | 20% | 4 bugs corrigidos: validação, saldo, `PESSIMISTIC_WRITE`, `@TransactionAttribute` |
-| CRUD + Transferência | 15% | 7 endpoints REST + transferência com locking |
-| Qualidade de código | 10% | DTOs, exceções de domínio, handler global, `@Valid`, Javadoc no EJB |
-| Testes | 15% | 18 testes backend (unitários + integração) + 8 Angular |
-| Documentação | 10% | Swagger UI + README completo com arquitetura e endpoints |
-| Frontend | 10% | Angular 17 standalone, reactive forms, filtro, saldo em tempo real |
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 | Camada | Tecnologia |
 |---|---|
@@ -202,3 +188,9 @@ bip-ideal/
 | Testes | JUnit 5, Mockito, MockMvc (backend) · Jasmine, Karma (Angular) |
 | CI | GitHub Actions (3 jobs paralelos) |
 | Infra | Docker, Docker Compose |
+
+---
+
+Teste Prático Fullstack Integrado
+
+Desenvolvido por Keila Moloni Stefani
