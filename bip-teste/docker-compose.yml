@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: beneficios_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d beneficios_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ejb-module:
+    build: ./ejb-module
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: beneficios_db
+      DB_USER: user
+      DB_PASS: password
+
+  backend-module:
+    build: ./backend-module
+    ports:
+      - "8081:8081"
+    depends_on:
+      db:
+        condition: service_healthy
+      ejb-module:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: beneficios_db
+      DB_USER: user
+      DB_PASS: password
+      EJB_URL: http://ejb-module:8080/ejb-module/api/beneficios
+      SERVER_PORT: 8081
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      backend-module:
+        condition: service_started
+
+volumes:
+  db-data:

@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>⇄ Transferência entre Benefícios</h2>
+      <a routerLink="/beneficios" class="btn btn-secondary btn-sm">← Voltar</a>
+    </div>
+
+    <div class="alert alert-success" *ngIf="sucesso">✅ {{ sucesso }}</div>
+    <div class="alert alert-error"   *ngIf="erro">❌ {{ erro }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="transferir()">
+      <div class="transfer-grid">
+        <div class="field">
+          <label>Origem *</label>
+          <select formControlName="fromId">
+            <option [ngValue]="null" disabled>Selecione a origem</option>
+            <option *ngFor="let b of beneficios" [value]="b.id">
+              {{ b.nome }} — {{ b.valor | currency:'BRL':'symbol':'1.2-2' }}
+            </option>
+          </select>
+          <span class="field-error" *ngIf="f['fromId'].touched && f['fromId'].errors?.['required']">Origem é obrigatória.</span>
+          <div class="saldo-hint" *ngIf="saldoOrigem() !== null">
+            Saldo: <strong>{{ saldoOrigem() | currency:'BRL':'symbol':'1.2-2' }}</strong>
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="field">
+          <label>Destino *</label>
+          <select formControlName="toId">
+            <option [ngValue]="null" disabled>Selecione o destino</option>
+            <option *ngFor="let b of beneficios" [value]="b.id">
+              {{ b.nome }} — {{ b.valor | currency:'BRL':'symbol':'1.2-2' }}
+            </option>
+          </select>
+          <span class="field-error" *ngIf="f['toId'].touched && f['toId'].errors?.['required']">Destino é obrigatório.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Valor a transferir *</label>
+        <input formControlName="amount" type="number" step="0.01" min="0.01" placeholder="0.00" />
+        <span class="field-error" *ngIf="f['amount'].touched && f['amount'].errors?.['required']">Valor é obrigatório.</span>
+        <span class="field-error" *ngIf="f['amount'].touched && f['amount'].errors?.['min']">Valor deve ser maior que zero.</span>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          {{ loading ? 'Transferindo...' : '⇄ Transferir' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

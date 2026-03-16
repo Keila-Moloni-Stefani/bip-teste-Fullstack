@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="page-header">
+    <h1>💼 Benefícios</h1>
+    <div class="header-actions">
+      <label class="toggle-label">
+        <input type="checkbox" [(ngModel)]="apenasAtivos" (change)="carregar()" />
+        Apenas ativos
+      </label>
+      <a routerLink="/beneficios/novo" class="btn btn-primary">+ Novo</a>
+      <a routerLink="/transferencia" class="btn btn-secondary">⇄ Transferência</a>
+    </div>
+  </div>
+
+  <div class="alert alert-success" *ngIf="sucesso">{{ sucesso }}</div>
+  <div class="alert alert-error"   *ngIf="erro">{{ erro }}</div>
+  <div class="loading"             *ngIf="loading">Carregando...</div>
+
+  <div class="empty-state" *ngIf="!loading && beneficios.length === 0">
+    Nenhum benefício encontrado.
+  </div>
+
+  <div class="table-wrapper" *ngIf="!loading && beneficios.length > 0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th><th>Nome</th><th>Descrição</th>
+          <th>Valor</th><th>Status</th><th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of beneficios">
+          <td>{{ b.id }}</td>
+          <td>{{ b.nome }}</td>
+          <td>{{ b.descricao || '—' }}</td>
+          <td class="valor">{{ b.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
+          <td>
+            <span class="badge"
+              [class.badge-active]="b.ativo"
+              [class.badge-inactive]="!b.ativo">
+              {{ b.ativo ? 'Ativo' : 'Inativo' }}
+            </span>
+          </td>
+          <td class="actions">
+            <a [routerLink]="['/beneficios/editar', b.id]" class="btn btn-sm btn-edit">Editar</a>
+            <button class="btn btn-sm btn-delete" (click)="deletar(b.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

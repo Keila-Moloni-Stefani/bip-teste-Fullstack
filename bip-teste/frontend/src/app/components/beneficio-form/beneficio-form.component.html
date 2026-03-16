@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="card">
+    <h2>{{ editando ? '✏️ Editar' : '➕ Novo' }} Benefício</h2>
+
+    <div class="alert alert-error" *ngIf="erro">{{ erro }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="field">
+        <label>Nome *</label>
+        <input formControlName="nome" type="text" placeholder="Nome do benefício" />
+        <span class="field-error" *ngIf="f['nome'].touched && f['nome'].errors?.['required']">Nome é obrigatório.</span>
+        <span class="field-error" *ngIf="f['nome'].touched && f['nome'].errors?.['maxlength']">Máximo 100 caracteres.</span>
+      </div>
+
+      <div class="field">
+        <label>Descrição</label>
+        <textarea formControlName="descricao" rows="3" placeholder="Descrição (opcional)"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Valor *</label>
+        <input formControlName="valor" type="number" step="0.01" min="0.01" placeholder="0.00" />
+        <span class="field-error" *ngIf="f['valor'].touched && f['valor'].errors?.['required']">Valor é obrigatório.</span>
+        <span class="field-error" *ngIf="f['valor'].touched && f['valor'].errors?.['min']">Valor deve ser maior que zero.</span>
+      </div>
+
+      <div class="field field-check">
+        <label>
+          <input formControlName="ativo" type="checkbox" /> Ativo
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          {{ loading ? 'Salvando...' : 'Salvar' }}
+        </button>
+        <a routerLink="/beneficios" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
